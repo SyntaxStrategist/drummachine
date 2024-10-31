@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 
 function App() {
@@ -21,6 +21,33 @@ function App() {
       sound.play().catch(error => console.error('Error playing sound:', error));
     }
   };
+
+  // useEffect for keyboard support
+  useEffect(() => {
+    const handleKeyPress = (event) => {
+      const keyMap = {
+        Q: 'Heater-1.mp3',
+        W: 'Heater-2.mp3',
+        E: 'Heater-3.mp3',
+        A: 'Heater-4_1.mp3',
+        S: 'Heater-6.mp3',
+        D: 'Dsc_Oh.mp3',
+        Z: 'Kick_n_Hat.mp3',
+        X: 'RP4_KICK_1.mp3',
+        C: 'Cev_H2.mp3',
+      };
+
+      const key = event.key.toUpperCase();
+      if (keyMap[key]) {
+        playSound(keyMap[key]);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => {
+      window.removeEventListener('keydown', handleKeyPress);
+    };
+  }, [power, volume]);
 
   return (
     <div id="drum-machine">
@@ -58,3 +85,4 @@ function App() {
 }
 
 export default App;
+
